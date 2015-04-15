@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title> Classement RBG FR</title>
+  
+	<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'></script>
+	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+
+<script>
+//<![CDATA[ 
+// script qui se lance dès le chargement de la page
+$(window).load(function(){
+
+// récupérations des données de l'api blizzard
+$.getJSON("http://eu.battle.net/api/wow/leaderboard/rbg" + "?callback=?", null, function( data ) {
+
+// recensement des serveurs fr
+var servFr = new Array("Arak-arahm", "Arathi ", "Archimonde", "Chants éternels", "Cho’gall", "Confrérie du Thorium", " Conseil des Ombres", 
+						"Dalaran", "Drek'Thar", "Eitrigg", "Eldre'Thalas", "Elune", "Garona", "Hyjal", "Illidan", "Kael'thas", "Khaz Modan", "Kirin Tor", 
+						"Krasus", "La Croisade écarlate", "Les Clairvoyants", "Les Sentinelles", "Marécage de Zangar", "Medivh", "Naxxramas", "Ner’zhul", "Rashgarroth", 
+						"Sargeras", "Sinstralis", "Temple noir", "Throk'Feroth", "Uldaman", "Varimathras", "Vol'jin", "Ysondre");
+
+// compteur d'itérations pour obtenir le classement
+var classement = 0;
+
+// affichage des données récupérées dans le tableau html "classements"
+$(data.rows).each(function() {
+	if (servFr.indexOf(this.realmName) !== -1) {
+	classement++;
+    var output = "<tr><td>" + classement + "</td><td>" + this.ranking + "</td><td>" + this.rating + "</td><td>" + this.name+ "</td></tr>";
+    $('#classements').append(output);
+	}
+});
+})
+// fonctions de Jquery pour la gestion d'erreur lors de la récupérations des données de l'api
+//.done(function() { alert('getJSON request succeeded!'); })
+.fail(function(jqXHR, textStatus, errorThrown) { alert('getJSON request failed! ' + textStatus); })
+//.always(function() { alert('getJSON request ended!'); });
+
+});//]]>  
+
+</script>
+</head>
+
+
+<body>
+
+<table id="classements" border="2">
+
+<tr><td>Classement FR</td><td>Classement EU</td><td>Cote</td><td>Nom</td></tr>
+</table>
+</body>
+
+</html>
+
